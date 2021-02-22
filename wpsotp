@@ -6,7 +6,7 @@
 # --------------------------------------------
 # https://github.com/owl4ce/wpsotp
 
-# WPS Office Suite binary filename
+# WPS Office Suite filename
 WRITER="wps"
 PRESENTATION="wpp"
 SPREADSHEET="et"
@@ -46,7 +46,7 @@ fi
 
 unpatch() {
     if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
-        $PRIV echo "" &> /dev/null; msg_patching "Unpatching" "$@" "..." && \
+        $PRIV echo "" &> /dev/null; msg_patching "Unpatching" "$@" "..."
         $PRIV sed -i 's\"-style=gtk+"\""\' "$(command -v "$@")" && \
         [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gOpt=".*"/d' "$(command -v "$@")" || : && \
         $PRIV sed -i '/GTK2_RC_FILES/d' "$(command -v "$@")" && \
@@ -59,7 +59,7 @@ unpatch() {
 
 patch() {
     if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
-        $PRIV echo "" &> /dev/null; msg_patching "Patching" "$@" "..." && \
+        $PRIV echo "" &> /dev/null; msg_patching "Patching" "$@" "..."
         $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(command -v "$@")" && \
         [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(command -v "$@")" || : && \
         $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(command -v "$@")" && \
