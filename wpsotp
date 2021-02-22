@@ -16,6 +16,7 @@ PDF="wpspdf"
 R="\e[1;31m"; G="\e[1;32m"; M="\e[1;35m"; W="\e[1;37m"; NC="\e[1;0m"
 checkdep() { command -v "$1" > /dev/null 2>&1 || err "${M}$1${W} is not installed. Please install it first!${NC}"; }
 checkgtk() {
+    # GTK-2.0 rc file locations
     HOME_THEME_DIR="$HOME/.themes/$GTK_THEME_TARGET/gtk-2.0/gtkrc"
     GLOBAL_THEME_DIR="/usr/share/themes/$GTK_THEME_TARGET/gtk-2.0/gtkrc"
     
@@ -31,6 +32,7 @@ msg() { echo -e "${G}==>${W} $@${NC}"; }
 msg_patch() { echo -e "${G}==>${M} $1${R} $2${NC}"; }
 msg_patching() { echo -e -n "${G}==>${W} $1${M} $2${W}$3${NC}"; }
 msg_patching_ok() { echo -e "${G} OK${NC}"; }
+msg_patching_fail() { echo -e "${R} FAIL${NC}"; }
 
 checkdep "$WRITER"; checkdep "$PRESENTATION"; checkdep "$SPREADSHEET"; checkdep "$PDF"; checkdep "sed"
 
@@ -44,12 +46,12 @@ fi
 
 unpatch() {
     if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
-        $PRIV echo "" &> /dev/null; msg_patching "Unpatching" "$@" "..."
-        $PRIV sed -i 's\"-style=gtk+"\""\' "$(command -v "$@")"
-        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gOpt=".*"/d' "$(command -v "$@")" || :
-        $PRIV sed -i '/GTK2_RC_FILES/d' "$(command -v "$@")"
-        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} ${gOpt} "\${gApp} "\' "$(command -v "$@")" || :
-        msg_patching_ok
+        $PRIV echo "" &> /dev/null; msg_patching "Unpatching" "$@" "..." && \
+        $PRIV sed -i 's\"-style=gtk+"\""\' "$(command -v "$@")" && \
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gOpt=".*"/d' "$(command -v "$@")" || : && \
+        $PRIV sed -i '/GTK2_RC_FILES/d' "$(command -v "$@")" && \
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} ${gOpt} "\${gApp} "\' "$(command -v "$@")" || : && \
+        msg_patching_ok || msg_patching_fail
     else
         msg_patch "$@" "theme not patched!"
     fi
@@ -57,12 +59,12 @@ unpatch() {
 
 patch() {
     if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
-        $PRIV echo "" &> /dev/null; msg_patching "Patching" "$@" "..."
-        $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(command -v "$@")"
-        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(command -v "$@")" || :
-        $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(command -v "$@")"
-        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} "\${gApp} ${gOpt} "\' "$(command -v "$@")" || :
-        msg_patching_ok
+        $PRIV echo "" &> /dev/null; msg_patching "Patching" "$@" "..." && \
+        $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(command -v "$@")" && \
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(command -v "$@")" || : && \
+        $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(command -v "$@")" && \
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} "\${gApp} ${gOpt} "\' "$(command -v "$@")" || : && \
+        msg_patching_ok || msg_patching_fail
     else
         msg_patch "$@" "theme already patched!"
     fi
