@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Pure bash script to patch WPS Office GTK Theme
+# Author: owl4ce
+# License: GPL-3.0
+# -----------------------------------------------
+# https://github.com/owl4ce/wpsotp
+
+# WPS Office Suite binary filename
+WRITER="wps"
+PRESENTATION="wpp"
+SPREADSHEET="et"
+PDF="wpspdf"
+
+# Functions
+R="\e[1;31m"; G="\e[1;32m"; M="\e[1;35m"; W="\e[1;37m"; NC="\e[1;0m"
+checkdep() { command -v "$1" > /dev/null 2>&1 || err "${M}$1${W} is not installed. Please install it first!${NC}"; }
+checkgtk() {
+    HOME_THEME_DIR="$HOME/.themes/$GTK_THEME_TARGET/gtk-2.0/gtkrc"
+    GLOBAL_THEME_DIR="/usr/share/themes/$GTK_THEME_TARGET/gtk-2.0/gtkrc"
+    
+    if [[ -f "$HOME_THEME_DIR" ]]; then
+        GTK_THEME="$HOME_THEME_DIR"; :
+    elif [[ -f "$GLOBAL_THEME_DIR" ]]; then
+        GTK_THEME="$GLOBAL_THEME_DIR"; :
+    else err "${M}$GTK_THEME_TARGET${W} gtk theme is not exists!"
+    fi
+}
+err() { echo -e "${R}==> Error:${W} $@${NC}"; exit 1; }
+msg() { echo -e "${G}==>${W} $@${NC}"; }
+msg_patch() { echo -e "${G}==>${M} $1${R} $2${NC}"; }
+msg_patching() { echo -e -n "${G}==>${W} $1${M} $2${W}$3${NC}"; }
+msg_patching_ok() { echo -e "${G} OK${NC}"; }
+
+checkdep "$WRITER"; checkdep "$PRESENTATION"; checkdep "$SPREADSHEET"; checkdep "$PDF"; checkdep "sed"
+
+if [[ "$(command -v "sudo")" ]]; then
+    PRIV="sudo"
+elif [[ "$(command -v "doas")" ]] ; then
+    PRIV="doas"
+else
+    err "There's no ${M}sudo${W} or ${M}doas${W} installed.${NC}"
+fi
+
+unpatch() {
+    if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
+        $PRIV echo "" &> /dev/null; msg_patching "Unpatching" "$@" "..."
+        $PRIV sed -i 's\"-style=gtk+"\""\' "$(command -v "$@")"
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gOpt=".*"/d' "$(command -v "$@")" || :
+        $PRIV sed -i '/GTK2_RC_FILES/d' "$(command -v "$@")"
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} ${gOpt} "\${gApp} "\' "$(command -v "$@")" || :
+        msg_patching_ok
+    else
+        msg_patch "$@" "theme not patched!"
+    fi
+}
+
+patch() {
+    if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(command -v "$@")" &> /dev/null; then
+        $PRIV echo "" &> /dev/null; msg_patching "Patching" "$@" "..."
+        $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(command -v "$@")"
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(command -v "$@")" || :
+        $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(command -v "$@")"
+        [[ "$@" = "$PDF" ]] && $PRIV sed -i 's\${gApp} "\${gApp} ${gOpt} "\' "$(command -v "$@")" || :
+        msg_patching_ok
+    else
+        msg_patch "$@" "theme already patched!"
+    fi
+}
+
+case $1 in
+    -u) unpatch "$WRITER"
+        unpatch "$PRESENTATION"
+        unpatch "$SPREADSHEET"
+        unpatch "$PDF"
+    ;;
+    -*) err "Unknown option $1"
+    ;;
+    *)  msg "Enter GTK Theme to be applied!"
+        echo -n -e "${M}[${NC} Light Theme ${M}]\n${M}: $@${NC}"
+        read "GTK_THEME_TARGET" && checkgtk
+        msg_patching "Using" "$GTK_THEME_TARGET" " GTK Theme...\n"
+        patch "$WRITER"
+        patch "$PRESENTATION"
+        patch "$SPREADSHEET"
+        patch "$PDF"
+    ;;
+esac
