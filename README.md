@@ -22,7 +22,7 @@ $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") 
 
 ##  
 
-<p align="center"><img src="./screenshots/wpsot.jpg" align="center"/></p>
+<p align="center"><img src="./screenshots/wpsotp.jpg" align="center"/></p>
 
 Dark Theme <kbd>issue</kbd>|Light Theme
 |--|--|
