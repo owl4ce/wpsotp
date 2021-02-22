@@ -22,6 +22,10 @@ $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") 
 ```
 
 ##  
+### Repatch
+Just undo patch and patch again.
+
+##  
 
 <p align="center"><img src="./screenshots/wpsotp.jpg" align="center"/></p>
 
