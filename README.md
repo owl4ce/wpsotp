@@ -8,6 +8,7 @@
 
 ##  
 ### Patching
+cURL **wpsotp** then enter your light gtk themes.
 ```bash
 $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 ```
@@ -24,7 +25,7 @@ $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") 
 
 <p align="center"><img src="./screenshots/wpsotp.jpg" align="center"/></p>
 
-Dark Theme <kbd>issue</kbd>|Light Theme
+Dark GTK Themes|Light GTK Themes
 |--|--|
 <img src="./screenshots/dark-theme.jpg"/>|<img src="./screenshots/light-theme.jpg"/>
 
