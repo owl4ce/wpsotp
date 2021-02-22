@@ -1,3 +1,7 @@
+<h2 align="center">Wine Font Smoothing</h2>
+
+<p align="center">Easily patch WPS Office Themes to solve QT problems on ark GTK Themes</p>
+
 ##  
 ### Dependencies <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/wpsotp?style=flat-square&label=&color=fa74b2&logo=GitHub&logoColor=white&labelColor=373e4d"/>
 `bash` `curl` `sed` `sudo/doas` `wps-office`
