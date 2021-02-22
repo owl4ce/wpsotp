@@ -23,7 +23,7 @@ $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") 
 
 ##  
 ### Re-patch
-Just undo patch and patch again.
+Just [undo patch](#undo-patch) and [patch](#patching) again.
 
 ##  
 
