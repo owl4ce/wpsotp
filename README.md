@@ -8,7 +8,7 @@
 
 ##  
 ### Patching
-cURL **wpsotp** then enter your light gtk themes.
+cURL **wpsotp** then enter your Light GTK Themes e.g `Adwaita`.
 ```bash
 $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 ```
