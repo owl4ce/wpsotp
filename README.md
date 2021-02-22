@@ -4,11 +4,11 @@
 
 ##  
 ### Dependencies <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/wpsotp?style=flat-square&label=&color=fa74b2&logo=GitHub&logoColor=white&labelColor=373e4d"/>
-`bash` `curl` `sed` `sudo/doas` `wps-office`
+`bash` `sed` `sudo/doas` `wps-office`
 
 ##  
 ### Patching
-cURL **wpsotp** then enter your Light GTK Themes e.g **Adwaita**.
+cURL/wget **wpsotp** then enter your Light GTK Themes e.g **Adwaita**.
 ```bash
 $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 ```
