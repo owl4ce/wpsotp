@@ -16,7 +16,7 @@ $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 > :heavy_check_mark: **WPS 2019**
 
 ##  
-### Undo Patch
+### Undo patch
 ```bash
 $ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") -u
 ```
