@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Pure bash script to patch WPS Office GTK Theme
+# Pure bash script to patch WPS Office Themes
 # Author: owl4ce
 # License: GPL-3.0
-# -----------------------------------------------
+# --------------------------------------------
 # https://github.com/owl4ce/wpsotp
 
 # WPS Office Suite binary filename
