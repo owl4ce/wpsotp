@@ -4,12 +4,12 @@
 
 ##  
 ### Dependencies <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/wpsotp?style=flat-square&label=&color=fa74b2&logo=GitHub&logoColor=white&labelColor=373e4d"/>
-`bash` `sed` `sudo/doas` `wps-office`
+`bash` `curl` `sed` `sudo/doas` `wps-office`
 
 ##  
 ### Patching
 ```bash
-$ curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp" | bash
+$ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 ```
 
 > :heavy_check_mark: **WPS 2019**
@@ -17,7 +17,7 @@ $ curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp" | bash
 ##  
 ### Undo Patch
 ```bash
-$ curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp" | bash -s -- -u
+$ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") -u
 ```
 
 ##  
