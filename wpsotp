@@ -38,7 +38,7 @@ checkdep "$WRITER"; checkdep "$PRESENTATION"; checkdep "$SPREADSHEET"; checkdep 
 
 if [[ "$(command -v "sudo")" ]]; then
     PRIV="sudo"
-elif [[ "$(command -v "doas")" ]] ; then
+elif [[ "$(command -v "doas")" ]]; then
     PRIV="doas"
 else
     err "There's no ${M}sudo${W} or ${M}doas${W} installed.${NC}"
