@@ -1,4 +1,4 @@
-<h2 align="center">Wine Font Smoothing</h2>
+<h2 align="center">WPS Office Theme Patcher</h2>
 
 <p align="center">Easily patch WPS Office Themes to solve QT problems on ark GTK Themes</p>
 
