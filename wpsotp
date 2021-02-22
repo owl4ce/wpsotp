@@ -24,7 +24,7 @@ checkgtk() {
         GTK_THEME="$HOME_THEME_DIR"; :
     elif [[ -f "$GLOBAL_THEME_DIR" ]]; then
         GTK_THEME="$GLOBAL_THEME_DIR"; :
-    else err "${M}$GTK_THEME_TARGET${W} gtk theme is not exists!"
+    else err "${M}$GTK_THEME_TARGET${W} GTK Theme is not exists!"
     fi
 }
 err() { echo -e "${R}==> Error:${W} $@${NC}"; exit 1; }
