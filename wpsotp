@@ -13,7 +13,7 @@ SPREADSHEET="et"
 PDF="wpspdf"
 
 # Functions
-R="\e[1;31m"; G="\e[1;32m"; M="\e[1;35m"; W="\e[1;37m"; NC="\e[0m"
+LC_ALL=C; LANG=C; R="\e[1;31m"; G="\e[1;32m"; M="\e[1;35m"; W="\e[1;37m"; NC="\e[0m"
 checkdep() { command -v "$1" > /dev/null 2>&1 || err "${M}$1${W} is not installed. Please install it first!${NC}"; }
 checkgtk() {
     # GTK-2.0 rc file locations
