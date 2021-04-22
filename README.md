@@ -3,22 +3,22 @@
 <p align="center">Easily patch WPS Office Theme to solve QT problems with Dark GTK Themes on GNU/Linux</p>
 
 ##  
-### Dependencies <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/wpsotp?style=flat-square&label=&color=fa74b2&logo=GitHub&logoColor=white&labelColor=373e4d"/>
-`bash` `sed` `sudo/doas` `wps-office`
+### Dependencies <img alt="" align="right" src="https://badges.pufler.dev/visits/owl4ce/wpsotp?style=flat-square&label=&color=000000&logo=GitHub&logoColor=white&labelColor=373e4d"/>
+`sh/bash` `sed` `sudo/doas` `wps-office`
 
 ##  
 ### Patching
 cURL/wget **wpsotp** then enter your Light GTK Themes e.g **Adwaita**.
-```bash
-$ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
+```sh
+$ sh <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp")
 ```
 
 > :heavy_check_mark: **WPS 2019**
 
 ##  
 ### Undo patch
-```bash
-$ bash <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") -u
+```sh
+$ sh <(curl -s "https://raw.githubusercontent.com/owl4ce/wpsotp/main/wpsotp") -u
 ```
 
 ##  
