@@ -27,8 +27,6 @@ Just [undo patch](#undo-patch) and [patch](#patching) again.
 
 ##  
 
-<p align="center"><img src="./screenshots/wpsotp.jpg" align="center"/></p>
-
 Dark GTK Themes|Light GTK Themes
 |--|--|
 <img src="./screenshots/dark-theme.jpg"/>|<img src="./screenshots/light-theme.jpg"/>
