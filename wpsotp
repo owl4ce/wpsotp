@@ -14,15 +14,6 @@ PDF="wpspdf"
 
 LC_ALL=C LANG=C R="\033[1;31m" G="\033[1;32m" M="\033[1;35m" W="\033[1;37m" NC="\033[0m"
 
-# Privilege detection
-if type "sudo" >/dev/null; then
-    PRIV="sudo"
-elif type "doas" >/dev/null; then
-    PRIV="doas"
-else
-    err "There is no ${M}sudo${NC} or ${M}doas${NC} installed."
-fi
-
 # Functions
 # - Check dependencies
 checkdep() { type "$1" >/dev/null || err "${M}$1${NC} is not installed. Please install it first!"; }
@@ -46,6 +37,15 @@ msg_patch() { printf "${G} > ${M}$1 ${NC}$2 ${R}(error)\n"; }
 msg_patching() { printf "${G} > ${NC}$1 ${M}$2 ${NC}$3"; }
 msg_patching_ok() { printf "${G} OK${NC}\n"; }
 msg_patching_fail() { printf "${R} FAIL${NC}\n"; }
+
+# Privilege detection
+if type "sudo" >/dev/null; then
+    PRIV="sudo"
+elif type "doas" >/dev/null; then
+    PRIV="doas"
+else
+    err "There is no ${M}sudo${NC} or ${M}doas${NC} installed."
+fi
 
 # Checks dependencies
 checkdep "$WRITER"
