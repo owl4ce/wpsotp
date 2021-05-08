@@ -15,9 +15,9 @@ PDF="wpspdf"
 LC_ALL=C LANG=C R="\033[1;31m" G="\033[1;32m" M="\033[1;35m" W="\033[1;37m" NC="\033[0m"
 
 # Privilege detection
-if type -p "sudo" >/dev/null; then
+if type "sudo" >/dev/null; then
     PRIV="sudo"
-elif type -p "doas" >/dev/null; then
+elif type "doas" >/dev/null; then
     PRIV="doas"
 else
     err "There is no ${M}sudo${NC} or ${M}doas${NC} installed."
@@ -25,7 +25,7 @@ fi
 
 # Functions
 # - Check dependencies
-checkdep() { type -p "$1" >/dev/null || err "${M}$1${NC} is not installed. Please install it first!"; }
+checkdep() { type "$1" >/dev/null || err "${M}$1${NC} is not installed. Please install it first!"; }
 # - Check GTK Theme
 checkgtk() {
     # GTK-2.0 rc file locations
@@ -55,12 +55,12 @@ checkdep "$PDF"
 checkdep "sed"
 
 unpatch() {
-    if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type -p "$*")" >/dev/null; then
+    if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null; then
         $PRIV echo "" >/dev/null ; msg_patching "Unpatching" "$*" ".."
-        $PRIV sed -i 's\"-style=gtk+"\""\' "$(type -p "$*")" && \
-        [ "$*" = "$PDF" ] && $PRIV sed -i '/gOpt=".*"/d' "$(type -p "$*")" || : && \
-        $PRIV sed -i '/GTK2_RC_FILES/d' "$(type -p "$*")" && \
-        [ "$*" = "$PDF" ] && $PRIV sed -i 's\${gApp} ${gOpt} "\${gApp} "\' "$(type -p "$*")" || : && \
+        $PRIV sed -i 's\"-style=gtk+"\""\' "$(type "$*")" && \
+        [ "$*" = "$PDF" ] && $PRIV sed -i '/gOpt=".*"/d' "$(type "$*")" || : && \
+        $PRIV sed -i '/GTK2_RC_FILES/d' "$(type "$*")" && \
+        [ "$*" = "$PDF" ] && $PRIV sed -i 's\${gApp} ${gOpt} "\${gApp} "\' "$(type "$*")" || : && \
         msg_patching_ok || msg_patching_fail
     else
         msg_patch "$*" "theme not patched!" ; !
@@ -68,12 +68,12 @@ unpatch() {
 }
 
 patch() {
-    if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type -p "$*")" >/dev/null; then
+    if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null; then
         $PRIV echo "" >/dev/null ; msg_patching "Patching" "$*" ".."
-        $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(type -p "$*")" && \
-        [ "$*" = "$PDF" ] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(type -p "$*")" || : && \
-        $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(type -p "$*")" && \
-        [ "$*" = "$PDF" ] && $PRIV sed -i 's\${gApp} "\${gApp} ${gOpt} "\' "$(type -p "$*")" || : && \
+        $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(type "$*")" && \
+        [ "$*" = "$PDF" ] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(type "$*")" || : && \
+        $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(type "$*")" && \
+        [ "$*" = "$PDF" ] && $PRIV sed -i 's\${gApp} "\${gApp} ${gOpt} "\' "$(type "$*")" || : && \
         msg_patching_ok || msg_patching_fail
     else
         msg_patch "$*" "theme already patched!" ; !
