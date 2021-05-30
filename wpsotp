@@ -23,7 +23,7 @@ msg_patching() { printf "${G} > ${NC}$1 ${M}$2 ${NC}$3"; }
 msg_patching_ok() { printf "${G} OK${NC}\n"; }
 msg_patching_fail() { printf "${R} FAIL${NC}\n"; }
 # - Check dependencies
-checkdep() { type "$1" >/dev/null || err "${M}$1${NC} is not installed. Please install it first!"; }
+checkdep() { type "$1" >/dev/null 2>&1 || err "${M}$1${NC} is not installed. Please install it first!"; }
 # - Check GTK Theme
 checkgtk() {
     # GTK-2.0 rc file locations
@@ -39,9 +39,9 @@ checkgtk() {
 }
 
 # Privilege detection
-if type "sudo" >/dev/null; then
+if type "sudo" >/dev/null 2>&1; then
     PRIV="sudo"
-elif type "doas" >/dev/null; then
+elif type "doas" >/dev/null 2>&1; then
     PRIV="doas"
 else
     err "There is no ${M}sudo${NC} or ${M}doas${NC} installed."
@@ -55,8 +55,8 @@ checkdep "$PDF"
 checkdep "sed"
 
 unpatch() {
-    if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null; then
-        $PRIV echo "" >/dev/null ; msg_patching "Unpatching" "$*" ".."
+    if grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null 2>&1; then
+        $PRIV echo "" >/dev/null 2>&1 ; msg_patching "Unpatching" "$*" ".."
         $PRIV sed -i 's\"-style=gtk+"\""\' "$(type "$*")" && \
         [ "$*" = "$PDF" ] && $PRIV sed -i '/gOpt=".*"/d' "$(type "$*")" || : && \
         $PRIV sed -i '/GTK2_RC_FILES/d' "$(type "$*")" && \
@@ -68,8 +68,8 @@ unpatch() {
 }
 
 patch() {
-    if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null; then
-        $PRIV echo "" >/dev/null ; msg_patching "Patching" "$*" ".."
+    if ! grep -E "\-style=gtk+|GTK2_RC_FILES" "$(type "$*")" >/dev/null 2>&1; then
+        $PRIV echo "" >/dev/null 2>&1 ; msg_patching "Patching" "$*" ".."
         $PRIV sed -i 's\gOpt=""\gOpt="-style=gtk+"\' "$(type "$*")" && \
         [ "$*" = "$PDF" ] && $PRIV sed -i '/gBinPath=$(dirname "$0")/i gOpt="-style=gtk+"' "$(type "$*")" || : && \
         $PRIV sed -i "/gOpt=\"-style=gtk+\"/a export GTK2_RC_FILES=$GTK_THEME" "$(type "$*")" && \
